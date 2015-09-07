@@ -15,24 +15,28 @@ class Payment {
         return new $class($configClass::getSettings(), $params);
     }
 
-    public static function createCloseTradeRequest($name, $options = array()) {
+    public static function createCloseTradeRequest($name) {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}CloseTradeRequest";
 
         if (!class_exists($class)) {
             throw new \Exception("Payment close trade request {$name} is not exist!");
         }
-        return new $class($options);
+        $configClass = __NAMESPACE__ . "\\{$name}\\{$name}Config";
+
+        return new $class($configClass::getSettings());
     }
 
-    public static function createResponse($name, $options = array()) {
+    public static function createResponse($name) {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}Response";
 
         if (!class_exists($class)) {
             throw new \Exception("Payment response {$name} is not exist!");
         }
-        return new $class($options);
+        $configClass = __NAMESPACE__ . "\\{$name}\\{$name}Config";
+        
+        return new $class($configClass::getSettings());
     }
 
     private function __construct() { }

@@ -4,7 +4,7 @@
 把url转换为二维码text的Endroid\QrCode\QrCode库。
 
 
-#使用阿里支付
+#使用支付宝支付
 ```
 <?php
 namespace WatcherHangzhouPayment\Payment;

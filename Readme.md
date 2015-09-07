@@ -1,6 +1,6 @@
 
+利用PHP的反射把两种支付接口统一起来。
 
-微信支付依赖composer的把url转换为二维码text的Endroid\QrCode\QrCode库。
 
 
 #使用支付宝支付
@@ -58,6 +58,7 @@ die;
 ```
 
 #使用微信支付
+微信支付依赖composer的把url转换为二维码text的Endroid\QrCode\QrCode库。
 ```
 <?php
 namespace WatcherHangzhouPayment\Payment;

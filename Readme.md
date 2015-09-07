@@ -1,6 +1,7 @@
 
 利用PHP的反射把两种支付接口统一起来。
 
+使用前需要配置目录下的Config文件即WxpayConfig.php与AlipayConfig.php
 
 
 #使用支付宝支付

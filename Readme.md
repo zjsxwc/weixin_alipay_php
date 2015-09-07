@@ -86,18 +86,28 @@ function createPaymentRequest($order, $requestParams)
 
 
 $returnXml = $paymentRequest->unifiedOrder();
-if (!$returnXml) {
-    throw new \RuntimeException("xml数据异常！");
-}
 $returnArray = $paymentRequest->fromXml($returnXml);
 if ($returnArray['return_code'] == 'SUCCESS') {
     $url = $returnArray['code_url'];
-    return $this->render('TopxiaWebBundle:PayCenter:wxpay-qrcode.html.twig', array(
-        'url' => $url,
-        'orderId' => $order['id'],
-    ));
-} else {
-    throw new \RuntimeException($returnArray['return_msg']);
+
+    $html = <<<EOF
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>使用微信二维码支付</title>
+<body>
+
+  <img src="{{ path('generate_qrcode_image',{url:url}) }}" >
+          <div class="text-qrcode hidden-xs">
+            请使用微信扫一扫<br>扫描二维码支付
+          </div>
+
+</body>
+</html>
+EOF;
+    echo $html;
+    die;
 }
 
 

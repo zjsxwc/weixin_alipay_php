@@ -14,7 +14,7 @@ $payRequestParams = array(
     'showUrl' => $this->generateUrl('show_goods', array('id' => $goods['id']), true),
 );
 
-$paymentRequest = $this->createPaymentRequest($order, $requestParams);
+$paymentRequest = createPaymentRequest($order, $requestParams);
 
 function createPaymentRequest($order, $requestParams)
 {
@@ -71,7 +71,7 @@ $payRequestParams = array(
     'showUrl' => $this->generateUrl('show_goods', array('id' => $goods['id']), true),
 );
 
-$paymentRequest = $this->createPaymentRequest($order, $requestParams);
+$paymentRequest = createPaymentRequest($order, $requestParams);
 
 function createPaymentRequest($order, $requestParams)
 {

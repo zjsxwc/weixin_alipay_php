@@ -2,6 +2,7 @@
 namespace WatcherHangzhouPayment\Payment\Wxpay;
 
 use WatcherHangzhouPayment\Payment\Request;
+use WatcherHangzhouPayment\Payment\CommonUtil;
 
 class WxpayRequest extends Request {
 
@@ -33,7 +34,7 @@ class WxpayRequest extends Request {
         $converted['mch_id'] = $this->options["wxpay_account"];
         $converted['nonce_str'] = $this->getNonceStr();
         $converted['out_trade_no'] = $params['orderSn'];
-        $converted['sign'] = strtoupper($this->signParams($converted));
+        $converted['sign'] = strtoupper(CommonUtil::signParams($converted, '&key=' . $this->options['secret']));
 
         $xml = $this->toXml($converted);
         $response = $this->postRequest($this->orderQueryUrl,$xml);
@@ -44,26 +45,6 @@ class WxpayRequest extends Request {
     {
         $array = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);        
         return $array;
-    }
-    
-    public function signParams($params) 
-    {
-        unset($params['sign_type']);
-        unset($params['sign']);
-
-        ksort($params);
-
-        $sign = '';
-        foreach ($params as $key => $value) {
-            if (empty($value)) {
-                continue;
-            }
-            $sign .= $key . '=' . $value . '&';
-        }
-        $sign = substr($sign, 0, - 1);
-        $sign .='&key=' . $this->options['secret'];//与Alipay不同这里多了$key=，不能用CommonUtil::signParams
-
-        return md5($sign);
     }
 
     protected function convertParams($params)

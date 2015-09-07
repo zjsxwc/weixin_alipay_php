@@ -1,6 +1,7 @@
 
 
-微信支付依赖composer的Symfony\Component\DependencyInjection\SimpleXMLElement
+微信支付依赖composer的Symfony\Component\DependencyInjection\SimpleXMLElement以及
+把url转换为二维码text的Endroid\QrCode\QrCode库。
 
 
 #使用阿里支付
@@ -9,8 +10,8 @@
 namespace WatcherHangzhouPayment\Payment;
 
 $payRequestParams = array(
-    'returnUrl' => $this->generateUrl('pay_return', array('name' => 'Alipay'), true),
-    'notifyUrl' => $this->generateUrl('pay_notify', array('name' => 'Alipay'), true),
+    'returnUrl' => $this->generateUrl('pay_return', array('name' => 'alipay'), true),
+    'notifyUrl' => $this->generateUrl('pay_notify', array('name' => 'alipay'), true),
     'showUrl' => $this->generateUrl('show_goods', array('id' => $goods['id']), true),
 );
 
@@ -24,7 +25,7 @@ function createPaymentRequest($order, $requestParams)
             'summary' => '',
             'amount' => $order['amount'],
     ));
-    return Payment::createRequest($order['payment'], $requestParams);
+    return Payment::createRequest('alipay', $requestParams);
 }
 
 $htmlForm = $request->form();
@@ -66,8 +67,8 @@ namespace WatcherHangzhouPayment\Payment;
 namespace WatcherHangzhouPayment\Payment;
 
 $payRequestParams = array(
-    'returnUrl' => $this->generateUrl('pay_return', array('name' => 'Wxpay'), true),
-    'notifyUrl' => $this->generateUrl('pay_notify', array('name' => 'Wxpay'), true),
+    'returnUrl' => $this->generateUrl('pay_return', array('name' => 'wxpay'), true),
+    'notifyUrl' => $this->generateUrl('pay_notify', array('name' => 'wxpay'), true),
     'showUrl' => $this->generateUrl('show_goods', array('id' => $goods['id']), true),
 );
 
@@ -81,7 +82,7 @@ function createPaymentRequest($order, $requestParams)
             'summary' => '',
             'amount' => $order['amount'],
     ));
-    return Payment::createRequest($order['payment'], $requestParams);
+    return Payment::createRequest('wxpay', $requestParams);
 }
 
 

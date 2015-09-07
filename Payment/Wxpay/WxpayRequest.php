@@ -2,7 +2,6 @@
 namespace WatcherHangzhouPayment\Payment\Wxpay;
 
 use WatcherHangzhouPayment\Payment\Request;
-use Symfony\Component\DependencyInjection\SimpleXMLElement;
 
 class WxpayRequest extends Request {
 

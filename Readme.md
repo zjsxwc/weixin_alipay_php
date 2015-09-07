@@ -1,7 +1,6 @@
 
 
-微信支付依赖composer的Symfony\Component\DependencyInjection\SimpleXMLElement以及
-把url转换为二维码text的Endroid\QrCode\QrCode库。
+微信支付依赖composer的把url转换为二维码text的Endroid\QrCode\QrCode库。
 
 
 #使用支付宝支付

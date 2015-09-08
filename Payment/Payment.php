@@ -1,9 +1,10 @@
 <?php
 namespace WatcherHangzhouPayment\Payment;
 
-class Payment {
-
-    public static function createRequest($name, $params = array()) {
+class Payment
+{
+    public static function createRequest($name, $params = array())
+    {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}Request";
 
@@ -15,7 +16,8 @@ class Payment {
         return new $class($configClass::getSettings(), $params);
     }
 
-    public static function createCloseTradeRequest($name) {
+    public static function createCloseTradeRequest($name)
+    {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}CloseTradeRequest";
 
@@ -27,7 +29,8 @@ class Payment {
         return new $class($configClass::getSettings());
     }
 
-    public static function createResponse($name) {
+    public static function createResponse($name)
+    {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}Response";
 
@@ -39,5 +42,7 @@ class Payment {
         return new $class($configClass::getSettings());
     }
 
-    private function __construct() { }
+    private function __construct()
+    {
+    }
 }

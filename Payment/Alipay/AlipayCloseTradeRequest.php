@@ -1,10 +1,10 @@
 <?php
 namespace WatcherHangzhouPayment\Payment\Alipay;
 
-
 use WatcherHangzhouPayment\Payment\CommonUtil;
 
-class AlipayCloseTradeRequest {
+class AlipayCloseTradeRequest
+{
 
     protected $url = 'https://mapi.alipay.com/gateway.do';
 
@@ -19,7 +19,7 @@ class AlipayCloseTradeRequest {
         return $this;
     }
 
-    public function closeTrade() 
+    public function closeTrade()
     {
         $result = $this->postRequest($this->url, $this->convertParams($this->params));
         return $this->parseResponse($result);
@@ -31,14 +31,14 @@ class AlipayCloseTradeRequest {
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $doc->loadXML($result);
 
-        if( ! empty($doc->getElementsByTagName( "alipay" )->item(0)->nodeValue) ) {
-            $success = $doc->getElementsByTagName( "is_success" )->item(0)->nodeValue;
-            if('F' == $success) {
+        if (! empty($doc->getElementsByTagName("alipay")->item(0)->nodeValue)) {
+            $success = $doc->getElementsByTagName("is_success")->item(0)->nodeValue;
+            if ('F' == $success) {
                 return array(
                     'success' => false,
-                    'msg' => $doc->getElementsByTagName( "error" )->item(0)->nodeValue
+                    'msg' => $doc->getElementsByTagName("error")->item(0)->nodeValue
                 );
-            } else if('T' == $success){
+            } else if ('T' == $success) {
                 return array(
                     'success' => true
                 );
@@ -52,7 +52,7 @@ class AlipayCloseTradeRequest {
     {
         $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_USERAGENT, 'Payment Client 1.0');
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($curl, CURLOPT_TIMEOUT, 10);
@@ -63,7 +63,7 @@ class AlipayCloseTradeRequest {
             $url = $url . (strpos($url, '?') ? '&' : '?') . http_build_query($params);
         }
 
-        curl_setopt($curl, CURLOPT_URL, $url );
+        curl_setopt($curl, CURLOPT_URL, $url);
 
         $response = curl_exec($curl);
         curl_close($curl);
@@ -86,5 +86,4 @@ class AlipayCloseTradeRequest {
 
         return $converted;
     }
-
 }

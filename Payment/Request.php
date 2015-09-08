@@ -1,8 +1,8 @@
 <?php
 namespace WatcherHangzhouPayment\Payment;
 
-abstract class Request {
-
+abstract class Request
+{
     protected $params = array();
 
     protected $options = array();

@@ -4,14 +4,14 @@ namespace WatcherHangzhouPayment\Payment\Wxpay;
 use WatcherHangzhouPayment\Payment\Response;
 
 class WxpayResponse extends Response
-{    
+{
     public function getPayData()
     {
         $params = $this->params;
         $data = array();
         $data['payment'] = 'wxpay';
         $data['sn'] = $params['out_trade_no'];
-        if(in_array($params['result_code'], array('SUCCESS','ORDERPAID'))) {
+        if (in_array($params['result_code'], array('SUCCESS','ORDERPAID'))) {
             $data['status'] = 'success';
         } else if (in_array($params['result_code'], array('ORDERCLOSED'))) {
             $data['status'] = 'closed';
@@ -27,5 +27,4 @@ class WxpayResponse extends Response
         }
         return $data;
     }
-
 }

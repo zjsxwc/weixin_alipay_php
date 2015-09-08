@@ -4,7 +4,8 @@ namespace WatcherHangzhouPayment\Payment\Alipay;
 use WatcherHangzhouPayment\Payment\CommonUtil;
 use WatcherHangzhouPayment\Payment\Request;
 
-class AlipayRequest extends Request {
+class AlipayRequest extends Request
+{
 
     protected $url = 'https://mapi.alipay.com/gateway.do';
 
@@ -77,5 +78,4 @@ class AlipayRequest extends Request {
     {
         return empty($this->options['type']) ? 'direct' : $this->options['type'];
     }
-
 }

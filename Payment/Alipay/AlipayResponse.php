@@ -19,7 +19,6 @@ class AlipayResponse extends Response
         $params = $this->params;
 
         if ($params['trade_status'] == 'WAIT_SELLER_SEND_GOODS') {
-
             $trade_no = $params['trade_no'];
             $result = $this->confirmSellerSendGoods($trade_no);
             
@@ -28,14 +27,14 @@ class AlipayResponse extends Response
             }
         }
 
-        if($params['trade_status'] == "WAIT_BUYER_CONFIRM_GOODS") {
-           return array('sn' => $params['trade_no'], 'status' => 'waitBuyerConfirmGoods');
+        if ($params['trade_status'] == "WAIT_BUYER_CONFIRM_GOODS") {
+            return array('sn' => $params['trade_no'], 'status' => 'waitBuyerConfirmGoods');
         }
 
         $data = array();
         $data['payment'] = 'alipay';
         $data['sn'] = $params['out_trade_no'];
-        if(in_array($params['trade_status'], array('TRADE_SUCCESS', 'TRADE_FINISHED'))) {
+        if (in_array($params['trade_status'], array('TRADE_SUCCESS', 'TRADE_FINISHED'))) {
             $data['status'] = 'success';
         } else if (in_array($params['trade_status'], array('TRADE_CLOSED'))) {
             $data['status'] = 'closed';
@@ -66,7 +65,7 @@ class AlipayResponse extends Response
         if ($this->params['sign'] !== $sign) {
             return 'sign_error';
         }
-        if(!empty($this->params['notify_id'])){
+        if (!empty($this->params['notify_id'])) {
             $notifyResult = $this->getRequest('https://mapi.alipay.com/gateway.do', array(
                 'notify_id' => $this->params['notify_id'],
                 'service' => 'notify_verify',
@@ -92,43 +91,20 @@ class AlipayResponse extends Response
         $params['transport_type'] = "DIRECT";
         $params['sign'] = $this->signParams($params);
 
-        $html_text = $this->postRequest($this->url,$params);
+        $html_text = CommonUtil::postRequest($this->url, $params);
         $doc = new \DOMDocument('1.0', 'UTF-8');
         $doc->loadXML($html_text);
 
-        if( ! empty($doc->getElementsByTagName( "alipay" )->item(0)->nodeValue) ) {
-            $trade_status = $doc->getElementsByTagName( "trade_status" )->item(0)->nodeValue;
+        if (! empty($doc->getElementsByTagName("alipay")->item(0)->nodeValue)) {
+            $trade_status = $doc->getElementsByTagName("trade_status")->item(0)->nodeValue;
             return $trade_status;
         } else {
             return null;
         }
     }
 
-    private function postRequest($url, $params)
+    private function signParams($params)
     {
-        $curl = curl_init();
-
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Payment Client 1.0');
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 10);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_HEADER, 0);
-        curl_setopt($curl, CURLOPT_POST, 1);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
-        curl_setopt($curl, CURLOPT_URL, $url );
-
-        curl_setopt($curl, CURLINFO_HEADER_OUT, TRUE );
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-
-        return $response;
-    }
-
-    private function signParams($params) {
         return CommonUtil::signParams($params, $this->options['secret']);
     }
-
 }

@@ -3,7 +3,6 @@ namespace WatcherHangzhouPayment\Payment;
 
 abstract class Response
 {
-
     protected $userAgent = 'Payment Client 1.0';
 
     protected $connectTimeout = 10;
@@ -37,7 +36,7 @@ abstract class Response
         curl_setopt($curl, CURLOPT_HEADER, 0);
 
         $url = $url . '?' . http_build_query($params);
-        curl_setopt($curl, CURLOPT_URL, $url );
+        curl_setopt($curl, CURLOPT_URL, $url);
 
         $response = curl_exec($curl);
 
@@ -46,5 +45,4 @@ abstract class Response
     }
 
     abstract public function getPayData();
-
 }

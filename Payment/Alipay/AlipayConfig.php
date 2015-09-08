@@ -8,8 +8,8 @@
 
 namespace WatcherHangzhouPayment\Payment\Wxpay;
 
-
-class AlipayConfig {
+class AlipayConfig
+{
     public static function getSettings()
     {
         return ["secret" => "xxxx", 'key' => "ccc", "type" => "direct"];

@@ -11,7 +11,7 @@ class WxpayResponse extends Response
         if (!$this->isRightSign($params)) {
             throw new \RuntimeException('微信支付签名校验失败。');
         }
-
+        //TODO 需要向微信再次询问此回调是否正确
         $data = array();
         $data['payment'] = 'wxpay';
         $data['sn'] = $params['out_trade_no'];

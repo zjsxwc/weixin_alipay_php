@@ -41,7 +41,7 @@ class WxpayResponse extends Response
                 $signPars .= $k . "=" . $v . "&";
             }
         }
-        $signPars .= "key=" . $this->options['key'];
+        $signPars .= "key=" . $this->options['secret'];
         
         $sign = strtolower(md5($signPars));
         

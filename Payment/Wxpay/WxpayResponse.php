@@ -8,6 +8,10 @@ class WxpayResponse extends Response
     public function getPayData()
     {
         $params = $this->params;
+        if (!$this->isRightSign($params)) {
+            throw new \RuntimeException('微信支付签名校验失败。');
+        }
+
         $data = array();
         $data['payment'] = 'wxpay';
         $data['sn'] = $params['out_trade_no'];
@@ -26,5 +30,23 @@ class WxpayResponse extends Response
             $data['paidTime'] = time();
         }
         return $data;
+    }
+
+    private function isRightSign($params)
+    {
+        $signPars = "";
+        ksort($params);
+        foreach ($params as $k => $v) {
+            if ("sign" != $k && "" != $v) {
+                $signPars .= $k . "=" . $v . "&";
+            }
+        }
+        $signPars .= "key=" . $this->options['key'];
+        
+        $sign = strtolower(md5($signPars));
+        
+        $tenpaySign = strtolower($params("sign"));
+        return $sign == $tenpaySign;
+        
     }
 }

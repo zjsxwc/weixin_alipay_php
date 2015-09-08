@@ -63,7 +63,7 @@ class WxpayRequest extends Request
         $converted['total_fee'] = intval($params['amount'] * 100);
         $converted['trade_type'] = 'NATIVE';
         $converted['product_id'] = $params['orderSn'];
-        $converted['sign'] = strtoupper($this->signParams($converted));
+        $converted['sign'] = strtoupper(CommonUtil::signParams($converted, '&key=' . $this->options['secret']));
 
         return $converted;
     }

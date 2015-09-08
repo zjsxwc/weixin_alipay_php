@@ -118,10 +118,10 @@ EOF;
 #回调数据处理
 ```
 if (支付宝) {
-    $response = $this->createPaymentResponse($name, $_POST);
+    $response = Payment::createResponse('alipay', $_POST);
 } elseif (微信) {
     $returnXml = $GLOBALS['HTTP_RAW_POST_DATA'];
-    $response = $this->createPaymentResponse($name, fromXml($returnXml));
+    $response = Payment::createResponse('wxpay', fromXml($returnXml));
 }
 $payData = $response->getPayData();
 

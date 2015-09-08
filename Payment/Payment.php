@@ -29,7 +29,7 @@ class Payment
         return new $class($configClass::getSettings());
     }
 
-    public static function createResponse($name)
+    public static function createResponse($name, $params = array())
     {
         $name = ucfirst(strtolower($name));
         $class = __NAMESPACE__ . "\\{$name}\\{$name}Response";
@@ -39,7 +39,7 @@ class Payment
         }
         $configClass = __NAMESPACE__ . "\\{$name}\\{$name}Config";
         
-        return new $class($configClass::getSettings());
+        return new $class($configClass::getSettings(), $params);
     }
 
     private function __construct()

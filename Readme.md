@@ -114,3 +114,26 @@ EOF;
 
 
 ```
+
+#回调数据处理
+```
+if (支付宝) {
+    $response = $this->createPaymentResponse($name, $_POST);
+} elseif (微信) {
+    $returnXml = $GLOBALS['HTTP_RAW_POST_DATA'];
+    $response = $this->createPaymentResponse($name, fromXml($returnXml));
+}
+$payData = $response->getPayData();
+
+if ($payData['status'] == "success") {
+    //干支付成功该干的事情
+}
+
+
+function fromXml($xml)
+{
+    $array = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
+    return $array;
+}
+
+```
